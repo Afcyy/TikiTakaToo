@@ -1,9 +1,12 @@
 package com.example.tikitakato
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
+var mMediaPlayer: MediaPlayer? = null
 
 private var firstPlayer: Boolean = true;
 
@@ -52,43 +55,14 @@ class MainActivity : AppCompatActivity() {
             resultTextView.text = ""
             setButtonsClickable(true)
             firstPlayer = true
-        }
-    }
-
-    fun checkWinner(){
-        if(button1.text.isNotEmpty() && button1.text == button2.text && button2.text == button3.text){
-            resultTextView.text = "${button1.text} Won!"
-            setButtonsClickable(false)
-        }else if(button4.text.isNotEmpty() && button4.text == button5.text && button5.text == button6.text){
-            resultTextView.text = "${button4.text} Won!"
-            setButtonsClickable(false)
-        }else if(button7.text.isNotEmpty() && button7.text == button8.text && button8.text == button9.text){
-            resultTextView.text = "${button7.text} Won!"
-            setButtonsClickable(false)
-        }else if(button1.text.isNotEmpty() && button1.text == button4.text && button4.text == button7.text){
-            resultTextView.text = "${button7.text} Won!"
-            setButtonsClickable(false)
-        }else if(button2.text.isNotEmpty() && button2.text == button5.text && button5.text == button8.text){
-            resultTextView.text = "${button8.text} Won!"
-            setButtonsClickable(false)
-        } else if(button3.text.isNotEmpty() && button3.text == button6.text && button6.text == button9.text){
-            resultTextView.text = "${button9.text} Won!"
-            setButtonsClickable(false)
-        } else if(button1.text.isNotEmpty() && button1.text == button5.text && button5.text == button9.text){
-            resultTextView.text = "${button9.text} Won!"
-            setButtonsClickable(false)
-        }else if(button3.text.isNotEmpty() && button3.text == button5.text && button5.text == button7.text){
-            resultTextView.text = "${button3.text} Won!"
-            setButtonsClickable(false)
-        }else if(button1.text.isNotEmpty() && button2.text.isNotEmpty() && button3.text.isNotEmpty() && button4.text.isNotEmpty() && button5.text.isNotEmpty() && button6.text.isNotEmpty() && button7.text.isNotEmpty() && button8.text.isNotEmpty() && button9.text.isNotEmpty()){
-            resultTextView.text = "Game Tied"
-            setButtonsClickable(false)
+            stopSound()
         }
 
     }
 
 
-    fun symbolHandler(Button: Button){
+
+    public fun symbolHandler(Button: Button){
         if(firstPlayer == true){
             Button.text = "X"
             firstPlayer = false;
@@ -100,6 +74,51 @@ class MainActivity : AppCompatActivity() {
         checkWinner()
     }
 
+    fun checkWinner(){
+        if(button1.text.isNotEmpty() && button1.text == button2.text && button2.text == button3.text){
+            resultTextView.text = "${button1.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button4.text.isNotEmpty() && button4.text == button5.text && button5.text == button6.text){
+            resultTextView.text = "${button4.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button7.text.isNotEmpty() && button7.text == button8.text && button8.text == button9.text){
+            resultTextView.text = "${button7.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button1.text.isNotEmpty() && button1.text == button4.text && button4.text == button7.text){
+            resultTextView.text = "${button7.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button2.text.isNotEmpty() && button2.text == button5.text && button5.text == button8.text){
+            resultTextView.text = "${button8.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        } else if(button3.text.isNotEmpty() && button3.text == button6.text && button6.text == button9.text){
+            resultTextView.text = "${button9.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        } else if(button1.text.isNotEmpty() && button1.text == button5.text && button5.text == button9.text){
+            resultTextView.text = "${button9.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button3.text.isNotEmpty() && button3.text == button5.text && button5.text == button7.text){
+            resultTextView.text = "${button3.text} Won!"
+            setButtonsClickable(false)
+            playSound()
+        }else if(button1.text.isNotEmpty() && button2.text.isNotEmpty() && button3.text.isNotEmpty() && button4.text.isNotEmpty() && button5.text.isNotEmpty() && button6.text.isNotEmpty() && button7.text.isNotEmpty() && button8.text.isNotEmpty() && button9.text.isNotEmpty()){
+            resultTextView.text = "Game Tied"
+            setButtonsClickable(false)
+            playSound()
+        }
+
+
+
+
+    }
+
+
     fun setButtonsClickable(value: Boolean){
         button1.isClickable = value
         button2.isClickable = value
@@ -110,6 +129,22 @@ class MainActivity : AppCompatActivity() {
         button7.isClickable = value
         button8.isClickable = value
         button9.isClickable = value
+    }
+
+    fun playSound() {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = MediaPlayer.create(this, R.raw.sound)
+            mMediaPlayer!!.isLooping = true
+            mMediaPlayer!!.start()
+        } else mMediaPlayer!!.start()
+    }
+
+    fun stopSound() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.stop()
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
     }
 
 }
